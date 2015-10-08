@@ -1,74 +1,48 @@
 import Ember from 'ember';
 import config from 'wecudos-mobile/config/environment';
-import OpentokConsultations from 'npm:opentok-calls';
+import OpentokCalls from 'npm:opentok-calls';
 
 export default Ember.Object.extend({
-  opentokConsultations: null,
+  opentokCalls: null,
 
-  isConnectionCreated: false,
-  isSessionConnected: false,
-  opentokSession: null,
-  localStream: null,
-  publisher: null,
-  streams: [],
-  connections: [],
-  subscribers: [],
-
-  isCallGoes: function() {
-    return this.get('opentokSession') && this.get('isSessionConnected') && this.get('isConnectionCreated') &&
-      this.get('publisher') && this.get('subscribers.length') && this.get('streams.length') && this.get('localStream');
-  }.property('isConnectionCreated', 'isSessionConnected', 'opentokSession', 'publisher',
-    'subscribers.length', 'streams.length', 'localStream'),
-
-  canBePubslished: function() {
-    return this.get('opentokSession') && this.get('isSessionConnected') && this.get('isConnectionCreated') && !this.get('publisher');
-  }.property('isConnectionCreated', 'isSessionConnected', 'opentokSession', 'publisher'),
+  /*
+   * Mandatory properties to manage calls
+   **/
+  isCalling: false,
+  isCallGoes: false,
+  canBePubslished: false,
+  hasPublisher: false,
+  hasSession: false,
+  hasLocalStream: false,
+  isAnyStream: false,
+  isAnyConnection: false,
+  isAnySubscribers: false,
 
   initOpentokConsultations: function() {
-    let opentokConsultations = new OpentokConsultations(config.openTok, this.configs);
+    let opentokCalls = new OpentokCalls(config.openTok);
 
-    this.set('opentokConsultations', opentokConsultations);
+    this.set('opentokCalls', opentokCalls);
 
-    opentokConsultations.on('emit', this.emitCallback.bind(this));
+    opentokCalls.on('hash-changed', this._emitCallback.bind(this));
   }.on('init'),
 
-  emitCallback: function(key, value) {
-    this.set(key, value);
+  _emitCallback: function(hash) {
+    this.setProperties(hash);
   },
 
   connect: function(sessionId, token) {
-    this.get('opentokConsultations').connect(sessionId, token);
+    this.get('opentokCalls').connect(sessionId, token);
   },
 
   disconnect: function () {
-    this.get('opentokConsultations').disconnect();
+    this.get('opentokCalls').disconnect();
   },
 
   publish: function() {
-    this.get('opentokConsultations.publisher').publish();
+    this.get('opentokCalls').publish();
   },
 
   unpublish: function() {
-    this.get('opentokConsultations.publisher').unpublish();
-  },
-
-  configs: {
-    localVideoElement: 'local-video',
-    localVideoOptions: {
-      insertMode: "append",
-      width: 1,
-      height: 1,
-      publishAudio: true,
-      publishVideo: true
-    },
-
-    remoteVideoElement: 'remote-video',
-    remoteVideoOptions: {
-      insertMode: "append",
-      width: 320,
-      height: 439,
-      publishAudio: true,
-      publishVideo: true
-    }
+    this.get('opentokCalls').unpublish();
   }
 });

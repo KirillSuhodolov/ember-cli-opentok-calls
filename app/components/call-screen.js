@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  isSubscribersEmpty: Ember.computed.empty('opentok.subscribers'),
+  isCalling: Ember.computed.empty('opentok.isCalling'),
   consultationTimeUpdate: 'consultationTimeUpdate',
 
   publishObserver: function() {
