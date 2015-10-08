@@ -5,10 +5,10 @@ export default Ember.Component.extend({
   consultationTimeUpdate: 'consultationTimeUpdate',
 
   publishObserver: function() {
-    if (this.get('opentok.canBePubslished')) {
+    if (this.get('opentok.canBePublished')) {
       this.get('opentok').publish();
     }
-  }.observes('opentok.canBePubslished').on('didInsertElement'),
+  }.observes('opentok.canBePublished').on('didInsertElement'),
 
   resetCounterObserver: function() {
     this.get('clock').reset();

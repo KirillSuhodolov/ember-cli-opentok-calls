@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-opentok-calls",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Ember-cli opentok-consultations.",
   "directories": {
     "doc": "doc",

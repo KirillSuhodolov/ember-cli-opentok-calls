@@ -10,7 +10,7 @@ export default Ember.Object.extend({
    **/
   isCalling: false,
   isCallGoes: false,
-  canBePubslished: false,
+  canBePublished: false,
   hasPublisher: false,
   hasSession: false,
   hasLocalStream: false,
