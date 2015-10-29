@@ -19,7 +19,14 @@ export default Ember.Object.extend({
   isAnySubscribers: false,
 
   initOpentokConsultations: function() {
-    let opentokCalls = new OpentokCalls(config.openTok);
+    let videoSettings = this.get('videoSettings');
+
+    videoSettings.key = config.openTok.key;
+
+    videoSettings.remoteVideoOptions.width = $(document).width();
+    videoSettings.remoteVideoOptions.height = $(document).height() - 130;
+
+    let opentokCalls = new OpentokCalls(videoSettings);
 
     this.set('opentokCalls', opentokCalls);
 
@@ -44,5 +51,25 @@ export default Ember.Object.extend({
 
   unpublish: function() {
     this.get('opentokCalls').unpublish();
+  },
+
+  config: {
+    localVideoElement: 'local-video',
+    localVideoOptions: {
+      insertMode: "append",
+      width: 1,
+      height: 1,
+      publishAudio: true,
+      publishVideo: true
+    },
+
+    remoteVideoElement: 'remote-video',
+    remoteVideoOptions: {
+      insertMode: "append",
+      width: 320,
+      height: 439,
+      publishAudio: true,
+      publishVideo: true
+    }
   }
 });
