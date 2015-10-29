@@ -53,7 +53,7 @@ export default Ember.Object.extend({
     this.get('opentokCalls').unpublish();
   },
 
-  config: {
+  videoSettings: {
     localVideoElement: 'local-video',
     localVideoOptions: {
       insertMode: "append",
