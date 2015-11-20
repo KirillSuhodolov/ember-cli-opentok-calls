@@ -11,8 +11,10 @@ export default Ember.Component.extend({
   }.observes('opentok.canBePublished').on('didInsertElement'),
 
   resetCounterObserver: function() {
-    this.get('clock').reset();
-  }.on('didInsertElement'),
+    if (this.get('opentok.isCallGoes')) {
+      this.get('clock').reset();
+    }
+  }.observes('opentok.isCallGoes').on('didInsertElement'),
 
   unpublishObserver: function() {
     this.get('opentok').unpublish();
