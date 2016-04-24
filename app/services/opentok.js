@@ -4,7 +4,7 @@ import OpentokCalls from 'npm:opentok-calls';
 
 export default Ember.Object.extend({
   opentokCalls: null,
-
+  
   /*
    * Mandatory properties to manage calls
    **/
@@ -18,8 +18,8 @@ export default Ember.Object.extend({
   isAnyConnection: false,
   isAnySubscribers: false,
 
-  initOpentokConsultations: function() {
-    let videoSettings = this.get('videoSettings');
+  initOpentokConsultations: function(videoSettings) {
+    videoSettings = videoSettings || this.get('videoSettings');
 
     videoSettings.key = config.openTok.key;
 
@@ -31,7 +31,7 @@ export default Ember.Object.extend({
     this.set('opentokCalls', opentokCalls);
 
     opentokCalls.on('hash-changed', this._emitCallback.bind(this));
-  }.on('init'),
+  },
 
   _emitCallback: function(hash) {
     this.setProperties(hash);
